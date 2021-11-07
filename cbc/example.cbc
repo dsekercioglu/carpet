@@ -1,0 +1,9 @@
+loadi 0 65      # our counter (0)
+loadi 1 90      # maximum value (8)
+load 2 32       # load where we'll jump to (16)
+loadi 3 10      # ASCII new line smh (24)
+lt 0 1 4        # compare our counter with our maximum value (32)
+print 0         # print counter
+inc 0           # increment our counter
+jeq 4 2         # if condition is true, jump to the beginning of the loop
+print 3         # new line

@@ -1,0 +1,172 @@
+registers *currently* there register range from 0 to 32(not included)
+each register *currently* holds a 32 bit value
+from now on registers will be represented as r
+
+stack memory *currently* can hold up to 256 * 4 bytes
+
+there is *currently* no heap memory yet
+
+len is the amount of bytes each instruction takes
+
+
+eq: equals
+ne: not equals
+lt: less than
+gt: greater than
+ltq: less than or equal to
+gtq: greater than or equal to
+
+hlt:
+    usage: hlt
+    len: 4
+    stops execution
+
+load:
+    usage: load r val
+    len: 8
+    loads a 32 bit unsigned integer to the register r
+    unsigned integer operations are Undefined Behaviour
+
+loadi:
+    usage: loadi r val
+    len: 8
+    loads a 32 bit signed integer to the register r
+
+loadf:
+    usage: loadf r val
+    len: 8
+    loads a 32 bit float to the register r
+
+mov:
+    usage: mov r0 r1
+    len: 4
+    writes the value at r0 to r1
+
+print:
+    usage: print r
+    len: 4
+    reinterprets the bytes at r as an ASCII character
+
+inc:
+    usage: inc r
+    len: 4
+    reinterprets the bytes at r as a 32 bit signed integer and increments it by one
+
+dec:
+    usage: dec r
+    len: 4
+    reinterprets the bytes at r as a 32 bit signed integer and decrements it by one
+
+signed 32 bit integer operations: add/sub/mul/div/mod
+    usage: op r0 r1 r2
+    len: 4
+    reinterprets the bytes at r0 and r1 as a 32 bit signed integer
+    applies the given operation and writes it to r2
+
+32 bit float operations: fadd/fsub/fmul/fdiv
+    usage: op r0 r1 r2
+    len: 4
+    reinterprets the bytes at r0 and r1 as a 32 bit float
+    applies the given operation and writes it to r2
+
+jmp:
+    usage: jmp r
+    len: 4
+    reinterprets the bytes at r as a 32 bit signed integer and goes to the byte at that location
+
+jmpb:
+    usage: jmpb r
+    len: 4
+    reinterprets the bytes at r as a 32 bit signed integer and increments the current byte by it
+
+jmpf:
+    usage: jmpf r
+    len: 4
+    reinterprets the bytes at r as a 32 bit signed integer and decrements the current byte by it
+
+comparisons: eq/ne/lt/gt/ltq/gtq
+    usage: cmp r0 r1 r2
+    len: 4
+    reinterprets the bytes at r0 and r1 as a signed 32 bit integer and applies the operation on them
+    the result is 0 if false, and 1 if true (unsigned integer)
+    this is written to r2
+
+comparisons: feq/fne/flt/fgt/fltq/fgtq
+    usage: cmp r0 r1 r2
+    len: 4
+    reinterprets the bytes at r0 and r1 as a 32 bit float and applies the operation on them
+    the result is 0 if false, and 1 if true (unsigned integer)
+    this is written to r2
+
+push:
+    usage: push r
+    len: 4
+    pushes the value at r to stack memory
+
+spush:
+    usage: spush r
+    len: 4
+    reinterprets r as an unsigned 32 bit integer and increments the stack pointer by it
+
+pop:
+    usage: pop r
+    len: 4
+    removes the last value on the stack memory and writes it to r
+
+spop:
+    usage: spop r
+    len: 4
+    reinterprets r as an unsigned 32 bit integer and decrements the stack pointer by it
+
+sread:
+    usage: sread r0 r1
+    len: 4
+    reinterprets r0 and r1 as unsigned 32 bit integers
+    indexes into stack memory using r0 and writes the value there to r1
+
+swrite:
+    usage: swrite r0 r1
+    len: 4
+    reinterprets r0 and r1 as unsigned 32 bit integers
+    indexes into stack memory using r0 and writes the value from r1 to there
+
+jeq:
+    usage: jeq r0 r1
+    len: 4
+    reinterprets r0 and r1 as unsigned 32 bit integers
+    if r0 is true(anything but 0) jump to the value at r1
+
+jne:
+    usage: jne r0 r1
+    len: 4
+    reinterprets r0 and r1 as unsigned 32 bit integers
+    if r0 is false(0) jump to the value at r1
+
+malloc:
+    usage: malloc r0 r1
+    len: 4
+    reinterprets r0 as a 32 bit signed integer and creates a memory space of that size
+    writes a pointer to the address
+    one memory space is 4 bytes
+
+free:
+    usage: malloc r
+    len: 4
+    reinterprets r as a pointer and removes the allocation made on that pointer
+    panics if it has already been freed
+
+hread:
+    usage: hread r0 r1
+    reinterprets r0 as an unsigned 32 bit integer, gets the value from there and writes it to r1
+
+hwrite:
+    usage: hwrite r0 r1
+    reinterprets r0 as an unsigned 32 bit integer, gets the value from there and sets it to the value at r1
+
+itof:
+    usage: itof r0 r1
+    reinterprets the value at r0 as a signed 32 bit integer, casts it to a 32 bit float and writes it to r1
+
+ftoi:
+    usage: ftoi r0 r1
+    reinterprets the value at r0 as a 32 float integer, casts it to a 32 bit signed integer and writes it to r1

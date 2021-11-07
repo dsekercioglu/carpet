@@ -1,0 +1,18 @@
+loadi 0 65      # our counter (0)
+loadi 1 90      # maximum value (8)
+load 2 32       # load where we'll jump to (16)
+loadi 3 10      # ASCII new line smh (24)
+lt 0 1 4        # compare our counter with our maximum value (32)
+malloc 1 5      # allocate 1 memory space(4 bytes) on the heap and write the pointer to 5
+hwrite 5 0      # write our counter to the location we have in heap memory
+push 5          # push our pointer to stack memory
+inc 0           # increment our counter
+jeq 4 2         # if condition is true, jump to the beginning of the loop
+print 3         # new line
+pop 0           # get the last pointer we have
+hread 0 0       # read from that location
+print 0         # print it
+pop 0           # get the last pointer we have
+hread 0 0       # read from that location
+print 0         # print it again
+print 3         # new line
